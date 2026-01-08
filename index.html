@@ -3,84 +3,608 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مولد رسائل المختبر</title>
+    <title>مولد رسائل العيادة</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
-        .container { max-width: 500px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        label { display: block; margin-top: 10px; font-weight: bold; }
-        select, input { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; margin-top: 20px; cursor: pointer; border: none; border-radius: 5px; font-size: 16px; transition: 0.3s; }
-        .btn-copy { background-color: #007bff; color: white; }
-        .btn-whatsapp { background-color: #25d366; color: white; }
-        #result { margin-top: 20px; white-space: pre-wrap; background: #eee; padding: 15px; border-radius: 5px; border: 1px solid #ddd; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(52, 152, 219, 0.1);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            font-size: 1.8rem;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            right: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #2ecc71);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        label {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 120px;
+            text-align: left;
+            font-size: 15px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        select, input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        /* تخصيص أداة التاريخ */
+        input[type="date"] {
+            font-family: inherit;
+            position: relative;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+            opacity: 0;
+        }
+        
+        .date-input-container {
+            position: relative;
+            flex: 1;
+        }
+        
+        .date-input-container::after {
+            content: "📅";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            pointer-events: none;
+            color: #3498db;
+            z-index: 1;
+        }
+        
+        #date {
+            padding-right: 15px;
+            padding-left: 50px;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* تصميم خاص للأسنان العلوية والسفلية في نفس السطر */
+        .teeth-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .teeth-group {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .teeth-label {
+            min-width: 120px;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: left;
+            font-size: 15px;
+        }
+        
+        .teeth-input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+        
+        .teeth-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 35px;
+            margin-bottom: 25px;
+        }
+        
+        button {
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-generate {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-generate:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #2573a7 100%);
+        }
+        
+        .btn-copy {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-copy:hover {
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+        }
+        
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366 0%, #128C7E 100%);
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+            padding: 17px;
+        }
+        
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+        }
+        
+        #result {
+            margin-top: 25px;
+            white-space: pre-wrap;
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e0e6ed;
+            font-size: 15px;
+            line-height: 1.8;
+            min-height: 200px;
+            direction: rtl;
+            font-family: 'Cairo', 'Segoe UI', sans-serif;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: block;
+            font-size: 16px;
+        }
+        
+        .message-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .copy-notification {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #2ecc71;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
+            z-index: 10;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 2px solid #f1f5f9;
+        }
+        
+        /* تصميم متجاوب للهواتف */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 25px 20px;
+                border-radius: 15px;
+            }
+            
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            label {
+                min-width: auto;
+                width: 100%;
+                text-align: right;
+            }
+            
+            select, input {
+                width: 100%;
+            }
+            
+            .date-input-container {
+                width: 100%;
+            }
+            
+            .teeth-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .teeth-group {
+                width: 100%;
+            }
+            
+            .teeth-label {
+                width: 100%;
+                text-align: right;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+            
+            button {
+                padding: 14px;
+                font-size: 15px;
+            }
+            
+            #result {
+                padding: 20px;
+                font-size: 14px;
+            }
+        }
     </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <div class="container">
-    <h2>إنشاء رسالة المختبر</h2>
-
-    <label>الاسم:</label>
-    <input type="text" id="name" placeholder="أدخل اسم المريض">
-
-    <label>الدكتور:</label>
-    <select id="doctor">
-        <option value="صمود">د. صمود</option>
-        <option value="أحمد">د. أحمد</option>
-        <option value="سارة">د. سارة</option>
-    </select>
-
-    <label>نوع العمل:</label>
-    <select id="work">
-        <option value="متحرك علوي كامل">متحرك علوي كامل</option>
-        <option value="متحرك سفلي جزئي">متحرك سفلي جزئي</option>
-        <option value="طقم كامل">طقم كامل</option>
-    </select>
-
-    <label>المعمل:</label>
-    <select id="lab">
-        <option value="بن عجاج">بن عجاج</option>
-        <option value="الماهر">الماهر</option>
-    </select>
-
-    <label>الهاتف:</label>
-    <input type="text" id="phone" value="777430595">
-
-    <label>التاريخ:</label>
-    <input type="text" id="date" value="11/1">
-
-    <label>متابعة:</label>
-    <select id="followUp">
-        <option value="نبيل">نبيل</option>
-        <option value="علي">علي</option>
-    </select>
-
-    <button class="btn-copy" onclick="generateMessage()">توليد الرسالة</button>
-    <div id="result">ستظهر الرسالة هنا...</div>
-    <button class="btn-whatsapp" onclick="sendWhatsApp()">إرسال عبر واتساب 💬</button>
+    <h2>مولد رسائل العيادة</h2>
+    
+    <div class="form-group">
+        <label for="name" class="required">الاسم:</label>
+        <input type="text" id="name" placeholder="أدخل اسم المريض">
+    </div>
+    
+    <div class="form-group">
+        <label for="doctor" class="required">الدكتور:</label>
+        <select id="doctor">
+            <option value="" disabled selected>اختر الدكتور</option>
+            <option value="د. محمد">د. محمد</option>
+            <option value="د. شريف">د. شريف</option>
+            <option value="د. عبدالحميد">د. عبدالحميد</option>
+            <option value="د. إجلال">د. إجلال</option>
+            <option value="د. مزنة">د. مزنة</option>
+            <option value="د. صمود">د. صمود</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="work" class="required">نوع العمل:</label>
+        <select id="work">
+            <option value="" disabled selected>اختر نوع العمل</option>
+            <option value="تركيب ثابت">ثابت</option>
+            <option value="متحرك علوي كامل">متحرك علوي كامل</option>
+            <option value="متحرك سفلي كامل">متحرك سفلي كامل</option>
+            <option value="متحرك كامل علوي وسفلي">متحرك كامل علوي وسفلي</option>
+            <option value="متحرك جزئي">متحرك جزئي</option>
+            <option value="شفاف">شفاف</option>
+            <option value="تقويم أسنان">تقويم ثابت</option>
+        </select>
+    </div>
+    
+    <!-- صف الأسنان العلوية والسفلية في نفس السطر -->
+    <div class="teeth-row">
+        <div class="teeth-group">
+            <label class="teeth-label">الأسنان العلوية:</label>
+            <input type="number" id="upperTeeth" class="teeth-input" placeholder="عدد الأسنان العلوية" min="0" max="32">
+        </div>
+        
+        <div class="teeth-group">
+            <label class="teeth-label">الأسنان السفلية:</label>
+            <input type="number" id="lowerTeeth" class="teeth-input" placeholder="عدد الأسنان السفلية" min="0" max="32">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="lab" class="required">المعمل:</label>
+        <select id="lab">
+            <option value="" disabled selected>اختر المعمل</option>
+            <option value="معمل بن عجاج">معمل بن عجاج</option>
+            <option value="معمل الماهر">معمل الماهر</option>
+            <option value="معمل النخبة">معمل النخبة</option>
+            <option value="معمل الأمانة">معمل الأمانة</option>
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="phone" class="required">الهاتف:</label>
+        <input type="text" id="phone" placeholder="أدخل رقم الهاتف" value="777430595">
+    </div>
+    
+    <div class="form-group">
+        <label for="date" class="required">التاريخ:</label>
+        <div class="date-input-container">
+            <input type="date" id="date">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="followUp" class="required">متابعة:</label>
+        <select id="followUp">
+            <option value="" disabled selected>اختر المسؤول عن المتابعة</option>
+            <option value="نبيل">نبيل</option>
+            <option value="هشام">هشام</option>
+            <option value="هادي">هادي</option>
+            <option value="احمد">احمد</option>
+        </select>
+    </div>
+    
+    <div class="buttons-container">
+        <button class="btn-generate" onclick="generateMessage()">
+            <span>توليد الرسالة</span>
+        </button>
+        <button class="btn-copy" onclick="copyToClipboard()">
+            <span>نسخ الرسالة</span>
+        </button>
+    </div>
+    
+    <div class="message-container">
+        <div class="copy-notification" id="copyNotification">تم نسخ الرسالة!</div>
+        <div class="result-label">الرسالة:</div>
+        <div id="result">ستظهر الرسالة هنا بعد الضغط على زر "توليد الرسالة"...</div>
+    </div>
+    
+    <button class="btn-whatsapp" onclick="sendWhatsApp()">
+        <span>إرسال عبر واتساب 💬</span>
+    </button>
+    
+    <div class="footer">
+        © 2026 مولد رسائل العيادة
+    </div>
 </div>
 
 <script>
+    // دالة توليد الرسالة
     function generateMessage() {
-        const name = document.getElementById('name').value;
+        const name = document.getElementById('name').value.trim();
         const doctor = document.getElementById('doctor').value;
         const work = document.getElementById('work').value;
+        const upperTeeth = document.getElementById('upperTeeth').value.trim();
+        const lowerTeeth = document.getElementById('lowerTeeth').value.trim();
         const lab = document.getElementById('lab').value;
-        const phone = document.getElementById('phone').value;
-        const date = document.getElementById('date').value;
+        const phone = document.getElementById('phone').value.trim();
+        const dateInput = document.getElementById('date').value;
         const followUp = document.getElementById('followUp').value;
+        
+        // التحقق من المدخلات المطلوبة
+        const requiredFields = [
+            { value: name, field: "الاسم" },
+            { value: doctor, field: "الدكتور" },
+            { value: work, field: "نوع العمل" },
+            { value: lab, field: "المعمل" },
+            { value: phone, field: "الهاتف" },
+            { value: dateInput, field: "التاريخ" },
+            { value: followUp, field: "المتابعة" }
+        ];
+        
+        for (const field of requiredFields) {
+            if (!field.value) {
+                alert(`يرجى ملء حقل "${field.field}"!`);
+                return "";
+            }
+        }
+        
+        // بناء الرسالة
+        let msg = `الاسم: ${name}
+الدكتور: ${doctor}
+نوع العمل: ${work}`;
 
-        const msg = `الاسم : ${name}\nالدكتور: ${doctor}\nالعمل: ${work}\nالمعمل : ${lab}\nالهاتف: ${phone}\nالتاريخ : ${date}\nمتابعه : ${followUp}`;
+        // إضافة عدد الأسنان العلوية إذا تم إدخاله
+        if (upperTeeth) {
+            msg += ` علوي ${upperTeeth}`;
+        }
+
+        // إضافة عدد الأسنان السفلية إذا تم إدخاله
+        if (lowerTeeth) {
+            msg += ` سفلي ${lowerTeeth}`;
+        }
+
+        msg += `\nالمعمل: ${lab}
+رقم الهاتف: ${phone}
+التاريخ: ${dateInput}
+المسؤول عن المتابعة: ${followUp}`;
         
         document.getElementById('result').innerText = msg;
         return msg;
     }
-
+    
+    // دالة نسخ الرسالة إلى الحافظة
+    function copyToClipboard() {
+        const resultElement = document.getElementById('result');
+        const notification = document.getElementById('copyNotification');
+        
+        // إذا كانت الرسالة فارغة، قم بتوليدها أولاً
+        if (resultElement.innerText === "ستظهر الرسالة هنا بعد الضغط على زر 'توليد الرسالة'...") {
+            alert("يرجى توليد الرسالة أولاً قبل النسخ!");
+            return;
+        }
+        
+        // نسخ النص إلى الحافظة
+        navigator.clipboard.writeText(resultElement.innerText)
+            .then(() => {
+                // إظهار إشعار النسخ
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            })
+            .catch(err => {
+                console.error('فشل نسخ النص: ', err);
+                alert("حدث خطأ أثناء النسخ! يمكنك نسخ الرسالة يدوياً.");
+            });
+    }
+    
+    // دالة إرسال الرسالة عبر واتساب
     function sendWhatsApp() {
         const msg = generateMessage();
+        
+        // إذا كانت الرسالة فارغة (بسبب عدم اكتمال البيانات)
+        if (!msg) {
+            return;
+        }
+        
         const encodedMsg = encodeURIComponent(msg);
-        window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
+        const phoneNumber = document.getElementById('phone').value.trim();
+        
+        // فتح واتساب مع الرسالة
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMsg}`, '_blank');
     }
+    
+    // تعبئة الحقول تلقائياً عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+        // تعيين تاريخ اليوم افتراضياً بصيغة YYYY-MM-DD
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        document.getElementById('date').value = `${year}-${month}-${day}`;
+        
+        // إضافة إمكانية الضغط على Enter للتنقل بين الحقول
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const nextIndex = index + 1;
+                    if (nextIndex < inputs.length) {
+                        inputs[nextIndex].focus();
+                    } else {
+                        generateMessage();
+                        document.querySelector('.btn-copy').focus();
+                    }
+                }
+            });
+        });
+        
+        // تحسين تجربة المستخدم: التركيز على أول حقل عند تحميل الصفحة
+        document.getElementById('name').focus();
+    });
 </script>
 
 </body>
