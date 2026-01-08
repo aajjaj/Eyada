@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مولد رسائل العيادة</title>
     <style>
-        /* [نفس الـ CSS السابق بالكامل] */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -31,53 +30,468 @@
             border: 1px solid rgba(52, 152, 219, 0.1);
         }
         
-        /* ... باقي الـ CSS بدون تغيير ... */
-        
-        /* إضافة مؤشر التحميل */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .status-message {
-            padding: 10px 15px;
-            margin: 10px 0;
-            border-radius: 8px;
+        h2 {
             text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            font-size: 1.8rem;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            right: 0;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #2ecc71);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        label {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 120px;
+            text-align: left;
+            font-size: 15px;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        select, input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+        
+        /* تصميم خاص لنوع العمل مع تشيك بوكس */
+        .work-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .work-select-container {
+            flex: 3;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .work-label {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 120px;
+            text-align: left;
+            font-size: 15px;
+        }
+        
+        #work {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+        
+        #work:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        /* تصميم جديد للتشيك بوكس - أصغر وبدون ألوان */
+        .urgent-checkbox-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: all 0.2s ease;
+            max-width: 120px;
+        }
+        
+        .urgent-checkbox-container:hover {
+            border-color: #bbb;
+            background-color: #f5f5f5;
+        }
+        
+        .urgent-checkbox-container:has(#urgent:checked) {
+            border-color: #aaa;
+            background-color: #f0f0f0;
+        }
+        
+        .urgent-checkbox-container label {
+            min-width: auto;
+            font-weight: 500;
+            color: #555;
+            cursor: pointer;
             font-size: 14px;
-            display: none;
+            white-space: nowrap;
+            margin: 0;
         }
         
-        .status-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
+        #urgent {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #666;
+            margin: 0;
         }
         
-        .status-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
+        /* تصميم خاص للقوائم المنسدلة (بدون أزرار إضافة/حذف) */
+        .dropdown-container {
+            flex: 1;
         }
         
-        .status-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
+        /* تخصيص أداة التاريخ */
+        input[type="date"] {
+            font-family: inherit;
+            position: relative;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+            opacity: 0;
+        }
+        
+        .date-input-container {
+            position: relative;
+            flex: 1;
+        }
+        
+        .date-input-container::after {
+            content: "📅";
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            pointer-events: none;
+            color: #3498db;
+            z-index: 1;
+        }
+        
+        #date {
+            padding-right: 15px;
+            padding-left: 50px;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* تصميم خاص للأسنان العلوية والسفلية في نفس السطر */
+        .teeth-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .teeth-group {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .teeth-label {
+            min-width: 120px;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: left;
+            font-size: 15px;
+        }
+        
+        .teeth-input {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+        
+        .teeth-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+            background-color: white;
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 35px;
+            margin-bottom: 25px;
+        }
+        
+        button {
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-generate {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-generate:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #2573a7 100%);
+        }
+        
+        .btn-copy {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-copy:hover {
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+        }
+        
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25d366 0%, #128C7E 100%);
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+            padding: 17px;
+        }
+        
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
+        }
+        
+        /* زر الإدارة */
+        .btn-management {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+            padding: 15px;
+        }
+        
+        .btn-management:hover {
+            background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%);
+        }
+        
+        #result {
+            margin-top: 25px;
+            white-space: pre-wrap;
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e0e6ed;
+            font-size: 15px;
+            line-height: 1.8;
+            min-height: 200px;
+            direction: rtl;
+            font-family: 'Cairo', 'Segoe UI', sans-serif;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-top: 10px;
+            margin-bottom: 10px;
             display: block;
+            font-size: 16px;
+        }
+        
+        .message-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .copy-notification {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #2ecc71;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
+            z-index: 10;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 2px solid #f1f5f9;
+        }
+        
+        /* تصميم متجاوب للهواتف */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .container {
+                padding: 25px 20px;
+                border-radius: 15px;
+            }
+            
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .work-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .work-select-container {
+                width: 100%;
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .work-label {
+                width: 100%;
+                text-align: right;
+            }
+            
+            .urgent-checkbox-container {
+                width: 100%;
+                max-width: none;
+                justify-content: flex-start;
+            }
+            
+            .dropdown-container {
+                width: 100%;
+            }
+            
+            label {
+                min-width: auto;
+                width: 100%;
+                text-align: right;
+            }
+            
+            select, input {
+                width: 100%;
+            }
+            
+            .date-input-container {
+                width: 100%;
+            }
+            
+            .teeth-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .teeth-group {
+                width: 100%;
+            }
+            
+            .teeth-label {
+                width: 100%;
+                text-align: right;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+            
+            button {
+                padding: 14px;
+                font-size: 15px;
+            }
+            
+            #result {
+                padding: 20px;
+                font-size: 14px;
+            }
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,29 +503,6 @@
 <div class="container">
     <h2>مولد رسائل العيادة</h2>
     
-    <!-- رسالة حالة الاتصال -->
-    <div id="connectionStatus" class="status-message status-info">
-        جاري الاتصال بقاعدة البيانات...
-    </div>
-    
-    <!-- قسم الاتصال بقاعدة البيانات (للمسؤول فقط) -->
-    <div id="adminSection" style="display: none; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; border: 2px dashed #3498db;">
-        <h4 style="color: #3498db; margin-bottom: 10px;">⚙️ إعدادات قاعدة البيانات</h4>
-        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <input type="text" id="dbUrl" placeholder="رابط Supabase" style="flex: 2; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-            <input type="text" id="dbKey" placeholder="مفتاح API" style="flex: 2; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-            <button onclick="connectToDatabase()" style="flex: 1; padding: 10px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">اتصال</button>
-        </div>
-        <div style="font-size: 12px; color: #666;">
-            ملاحظة: هذه الإعدادات لحفظها مرة واحدة فقط. البيانات ستبقى مخزنة.
-        </div>
-    </div>
-    
-    <!-- زر إظهار/إخفاء قسم الإدارة -->
-    <button onclick="toggleAdminSection()" style="width: 100%; padding: 10px; margin-bottom: 15px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
-        ⚙️ إظهار/إخفاء إعدادات قاعدة البيانات
-    </button>
-    
     <div class="form-group">
         <label for="name" class="required">الاسم:</label>
         <input type="text" id="name" placeholder="أدخل اسم المريض">
@@ -121,7 +512,8 @@
         <label for="doctor" class="required">الدكتور:</label>
         <div class="dropdown-container">
             <select id="doctor">
-                <option value="" disabled selected>جاري تحميل الأطباء...</option>
+                <option value="" disabled selected>اختر الدكتور</option>
+                <!-- سيتم ملئ الخيارات تلقائياً -->
             </select>
         </div>
     </div>
@@ -132,7 +524,8 @@
             <label for="work" class="work-label required">نوع العمل:</label>
             <div class="dropdown-container">
                 <select id="work">
-                    <option value="" disabled selected>جاري تحميل أنواع العمل...</option>
+                    <option value="" disabled selected>اختر نوع العمل</option>
+                    <!-- سيتم ملئ الخيارات تلقائياً -->
                 </select>
             </div>
         </div>
@@ -161,7 +554,8 @@
         <label for="lab" class="required">المعمل:</label>
         <div class="dropdown-container">
             <select id="lab">
-                <option value="" disabled selected>جاري تحميل المعامل...</option>
+                <option value="" disabled selected>اختر المعمل</option>
+                <!-- سيتم ملئ الخيارات تلقائياً -->
             </select>
         </div>
     </div>
@@ -182,7 +576,8 @@
         <label for="followUp" class="required">متابعة:</label>
         <div class="dropdown-container">
             <select id="followUp">
-                <option value="" disabled selected>جاري تحميل المتابعة...</option>
+                <option value="" disabled selected>اختر المسؤول عن المتابعة</option>
+                <!-- سيتم ملئ الخيارات تلقائياً -->
             </select>
         </div>
     </div>
@@ -212,7 +607,7 @@
     </button>
     
     <div class="footer">
-        © 2026 مولد رسائل العيادة - متصل بقاعدة بيانات موحدة
+        © 2026 مولد رسائل العيادة
     </div>
 </div>
 
@@ -220,11 +615,9 @@
 <div id="managementModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 20px;">
     <div style="background: white; padding: 30px; border-radius: 15px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h3 style="color: #2c3e50; margin: 0;">إدارة القوائم (مشتركة لجميع المستخدمين)</h3>
+            <h3 style="color: #2c3e50; margin: 0;">إدارة القوائم</h3>
             <button onclick="closeManagementModal()" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 16px;">إغلاق</button>
         </div>
-        
-        <div id="managementStatus" class="status-message" style="margin-bottom: 20px;"></div>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
             
@@ -233,9 +626,7 @@
                 <h4 style="color: #3498db; margin-bottom: 20px; text-align: center;">👨‍⚕️ إدارة الأطباء</h4>
                 <div style="margin-bottom: 15px;">
                     <input type="text" id="newDoctorInput" placeholder="أدخل اسم الدكتور الجديد" style="width: 100%; padding: 12px 15px; border: 2px solid #3498db; border-radius: 8px; font-size: 16px; margin-bottom: 10px;">
-                    <button onclick="addNewDoctor()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
-                        <span id="doctorAddBtn">إضافة طبيب</span>
-                    </button>
+                    <button onclick="addNewDoctor()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">إضافة طبيب</button>
                 </div>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <div id="doctorsList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -249,9 +640,7 @@
                 <h4 style="color: #e74c3c; margin-bottom: 20px; text-align: center;">🔧 إدارة أنواع العمل</h4>
                 <div style="margin-bottom: 15px;">
                     <input type="text" id="newWorkInput" placeholder="أدخل نوع العمل الجديد" style="width: 100%; padding: 12px 15px; border: 2px solid #e74c3c; border-radius: 8px; font-size: 16px; margin-bottom: 10px;">
-                    <button onclick="addNewWork()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
-                        <span id="workAddBtn">إضافة نوع عمل</span>
-                    </button>
+                    <button onclick="addNewWork()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">إضافة نوع عمل</button>
                 </div>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <div id="worksList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -265,9 +654,7 @@
                 <h4 style="color: #9b59b6; margin-bottom: 20px; text-align: center;">🏢 إدارة المعامل</h4>
                 <div style="margin-bottom: 15px;">
                     <input type="text" id="newLabInput" placeholder="أدخل اسم المعمل الجديد" style="width: 100%; padding: 12px 15px; border: 2px solid #9b59b6; border-radius: 8px; font-size: 16px; margin-bottom: 10px;">
-                    <button onclick="addNewLab()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
-                        <span id="labAddBtn">إضافة معمل</span>
-                    </button>
+                    <button onclick="addNewLab()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">إضافة معمل</button>
                 </div>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <div id="labsList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -281,9 +668,7 @@
                 <h4 style="color: #2ecc71; margin-bottom: 20px; text-align: center;">👥 إدارة المتابعة</h4>
                 <div style="margin-bottom: 15px;">
                     <input type="text" id="newFollowUpInput" placeholder="أدخل اسم مسؤول المتابعة" style="width: 100%; padding: 12px 15px; border: 2px solid #2ecc71; border-radius: 8px; font-size: 16px; margin-bottom: 10px;">
-                    <button onclick="addNewFollowUp()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
-                        <span id="followUpAddBtn">إضافة مسؤول متابعة</span>
-                    </button>
+                    <button onclick="addNewFollowUp()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">إضافة مسؤول متابعة</button>
                 </div>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <div id="followUpsList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -308,265 +693,35 @@
     const defaultLabs = ['معمل بن عجاج', 'معمل الماهر', 'معمل النخبة', 'معمل الأمانة'];
     const defaultFollowUps = ['نبيل', 'هشام', 'هادي', 'احمد'];
     
-    // إعدادات Supabase (سيتم تعبئتها من قبل المسؤول)
-    let SUPABASE_URL = '';
-    let SUPABASE_KEY = '';
-    let isDatabaseConnected = false;
-    
-    // دالة الاتصال بقاعدة البيانات
-    async function connectToDatabase() {
-        const url = document.getElementById('dbUrl').value.trim();
-        const key = document.getElementById('dbKey').value.trim();
-        
-        if (!url || !key) {
-            showStatus('connectionStatus', 'يرجى إدخال رابط ومفتاح Supabase', 'error');
-            return;
-        }
-        
-        try {
-            showStatus('connectionStatus', 'جاري التحقق من الاتصال بقاعدة البيانات...', 'info');
-            
-            // حفظ الإعدادات
-            SUPABASE_URL = url;
-            SUPABASE_KEY = key;
-            localStorage.setItem('supabase_url', url);
-            localStorage.setItem('supabase_key', key);
-            
-            // اختبار الاتصال
-            const testResponse = await fetch(`${url}/rest/v1/`, {
-                headers: {
-                    'apikey': key,
-                    'Authorization': `Bearer ${key}`
-                }
-            });
-            
-            if (testResponse.ok) {
-                isDatabaseConnected = true;
-                showStatus('connectionStatus', '✅ تم الاتصال بقاعدة البيانات بنجاح!', 'success');
-                
-                // إخفاء قسم الإدارة بعد الاتصال الناجح
-                document.getElementById('adminSection').style.display = 'none';
-                
-                // تحميل البيانات من قاعدة البيانات
-                await loadDataFromDatabase();
-                
-                // تحديث الواجهة بعد 3 ثوان
-                setTimeout(() => {
-                    document.getElementById('connectionStatus').style.display = 'none';
-                }, 3000);
-            } else {
-                throw new Error('فشل الاتصال بقاعدة البيانات');
-            }
-        } catch (error) {
-            console.error('خطأ في الاتصال:', error);
-            showStatus('connectionStatus', '❌ فشل الاتصال بقاعدة البيانات. تأكد من الإعدادات.', 'error');
-            isDatabaseConnected = false;
-        }
-    }
-    
-    // دالة تحميل الإعدادات المحفوظة
-    function loadSavedSettings() {
-        const savedUrl = localStorage.getItem('supabase_url');
-        const savedKey = localStorage.getItem('supabase_key');
-        
-        if (savedUrl && savedKey) {
-            SUPABASE_URL = savedUrl;
-            SUPABASE_KEY = savedKey;
-            document.getElementById('dbUrl').value = savedUrl;
-            document.getElementById('dbKey').value = savedKey;
-            
-            // محاولة الاتصال التلقائي
-            setTimeout(() => {
-                autoConnectToDatabase();
-            }, 1000);
-        }
-    }
-    
-    // دالة الاتصال التلقائي
-    async function autoConnectToDatabase() {
-        if (!SUPABASE_URL || !SUPABASE_KEY) return;
-        
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/`, {
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
-                }
-            });
-            
-            if (response.ok) {
-                isDatabaseConnected = true;
-                showStatus('connectionStatus', '✅ متصل بقاعدة البيانات المشتركة', 'success');
-                await loadDataFromDatabase();
-                
-                setTimeout(() => {
-                    document.getElementById('connectionStatus').style.display = 'none';
-                }, 2000);
-            }
-        } catch (error) {
-            console.log('الاتصال التلقائي فشل، استخدام البيانات المحلية');
-            loadLocalData();
-        }
-    }
-    
-    // دالة تحميل البيانات من قاعدة البيانات
-    async function loadDataFromDatabase() {
-        if (!isDatabaseConnected) {
-            loadLocalData();
-            return;
-        }
-        
-        try {
-            // جلب البيانات من Supabase
-            const [doctors, works, labs, followUps] = await Promise.all([
-                fetchDataFromTable('doctors'),
-                fetchDataFromTable('works'),
-                fetchDataFromTable('labs'),
-                fetchDataFromTable('followups')
-            ]);
-            
-            // تحديث القوائم
-            updateSelectOptions('doctor', doctors.length > 0 ? doctors : defaultDoctors);
-            updateSelectOptions('work', works.length > 0 ? works : defaultWorks);
-            updateSelectOptions('lab', labs.length > 0 ? labs : defaultLabs);
-            updateSelectOptions('followUp', followUps.length > 0 ? followUps : defaultFollowUps);
-            
-            // حفظ نسخة محلية للاستخدام عند انقطاع الاتصال
-            saveLocalData(doctors, works, labs, followUps);
-            
-        } catch (error) {
-            console.error('خطأ في تحميل البيانات:', error);
-            loadLocalData();
-        }
-    }
-    
-    // دالة جلب البيانات من جدول معين
-    async function fetchDataFromTable(tableName) {
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/${tableName}?select=name`, {
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
-                }
-            });
-            
-            if (response.ok) {
-                const data = await response.json();
-                return data.map(item => item.name);
-            }
-            return [];
-        } catch (error) {
-            console.error(`خطأ في جلب ${tableName}:`, error);
-            return [];
-        }
-    }
-    
-    // دالة إضافة عنصر إلى قاعدة البيانات
-    async function addItemToDatabase(tableName, itemName) {
-        if (!isDatabaseConnected) {
-            return { success: false, message: 'غير متصل بقاعدة البيانات' };
-        }
-        
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/${tableName}`, {
-                method: 'POST',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=minimal'
-                },
-                body: JSON.stringify({ name: itemName })
-            });
-            
-            return { success: response.ok };
-        } catch (error) {
-            return { success: false, message: error.message };
-        }
-    }
-    
-    // دالة حذف عنصر من قاعدة البيانات
-    async function deleteItemFromDatabase(tableName, itemName) {
-        if (!isDatabaseConnected) {
-            return { success: false, message: 'غير متصل بقاعدة البيانات' };
-        }
-        
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/${tableName}?name=eq.${encodeURIComponent(itemName)}`, {
-                method: 'DELETE',
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
-                }
-            });
-            
-            return { success: response.ok };
-        } catch (error) {
-            return { success: false, message: error.message };
-        }
-    }
-    
-    // دالة حفظ البيانات محلياً
-    function saveLocalData(doctors, works, labs, followUps) {
-        localStorage.setItem('doctors', JSON.stringify(doctors.length > 0 ? doctors : defaultDoctors));
-        localStorage.setItem('works', JSON.stringify(works.length > 0 ? works : defaultWorks));
-        localStorage.setItem('labs', JSON.stringify(labs.length > 0 ? labs : defaultLabs));
-        localStorage.setItem('followUps', JSON.stringify(followUps.length > 0 ? followUps : defaultFollowUps));
-    }
-    
-    // دالة تحميل البيانات المحلية
-    function loadLocalData() {
+    // دالة لتحميل البيانات من Local Storage
+    function loadData() {
         let doctors = JSON.parse(localStorage.getItem('doctors')) || defaultDoctors;
         let works = JSON.parse(localStorage.getItem('works')) || defaultWorks;
         let labs = JSON.parse(localStorage.getItem('labs')) || defaultLabs;
         let followUps = JSON.parse(localStorage.getItem('followUps')) || defaultFollowUps;
         
+        // تحديث قائمة الأطباء
         updateSelectOptions('doctor', doctors);
+        
+        // تحديث قائمة أنواع العمل
         updateSelectOptions('work', works);
+        
+        // تحديث قائمة المعامل
         updateSelectOptions('lab', labs);
+        
+        // تحديث قائمة المتابعة
         updateSelectOptions('followUp', followUps);
-        
-        showStatus('connectionStatus', '⚠️ استخدام البيانات المحلية (غير متصل بقاعدة البيانات)', 'info');
     }
-    
-    // دالة إظهار رسالة الحالة
-    function showStatus(elementId, message, type = 'info') {
-        const element = document.getElementById(elementId);
-        element.textContent = message;
-        element.className = 'status-message';
-        
-        switch(type) {
-            case 'success':
-                element.classList.add('status-success');
-                break;
-            case 'error':
-                element.classList.add('status-error');
-                break;
-            case 'info':
-                element.classList.add('status-info');
-                break;
-        }
-        
-        element.style.display = 'block';
-    }
-    
-    // دالة إظهار/إخفاء قسم الإدارة
-    function toggleAdminSection() {
-        const section = document.getElementById('adminSection');
-        section.style.display = section.style.display === 'none' ? 'block' : 'none';
-    }
-    
-    // [الوظائف الأخرى تبقى كما هي مع تعديلات بسيطة لدعم قاعدة البيانات]
     
     // دالة لتحديث خيارات القائمة المنسدلة
     function updateSelectOptions(selectId, items) {
         const select = document.getElementById(selectId);
         const currentValue = select.value;
         select.innerHTML = '<option value="" disabled selected>' + 
-                          (selectId === 'doctor' ? (items.length ? 'اختر الدكتور' : 'جاري التحميل...') : 
-                           selectId === 'work' ? (items.length ? 'اختر نوع العمل' : 'جاري التحميل...') : 
-                           selectId === 'lab' ? (items.length ? 'اختر المعمل' : 'جاري التحميل...') : 
-                           (items.length ? 'اختر المسؤول عن المتابعة' : 'جاري التحميل...')) + '</option>';
+                          (selectId === 'doctor' ? 'اختر الدكتور' : 
+                           selectId === 'work' ? 'اختر نوع العمل' : 
+                           selectId === 'lab' ? 'اختر المعمل' : 
+                           'اختر المسؤول عن المتابعة') + '</option>';
         
         items.forEach(item => {
             const option = document.createElement('option');
@@ -581,152 +736,25 @@
         }
     }
     
-    // دالة تحميل قوائم الإدارة
-    async function loadManagementLists() {
-        let doctors, works, labs, followUps;
+    // دالة لحفظ البيانات في Local Storage
+    function saveData() {
+        const doctors = getSelectOptions('doctor');
+        const works = getSelectOptions('work');
+        const labs = getSelectOptions('lab');
+        const followUps = getSelectOptions('followUp');
         
-        if (isDatabaseConnected) {
-            doctors = await fetchDataFromTable('doctors') || defaultDoctors;
-            works = await fetchDataFromTable('works') || defaultWorks;
-            labs = await fetchDataFromTable('labs') || defaultLabs;
-            followUps = await fetchDataFromTable('followups') || defaultFollowUps;
-        } else {
-            doctors = JSON.parse(localStorage.getItem('doctors')) || defaultDoctors;
-            works = JSON.parse(localStorage.getItem('works')) || defaultWorks;
-            labs = JSON.parse(localStorage.getItem('labs')) || defaultLabs;
-            followUps = JSON.parse(localStorage.getItem('followUps')) || defaultFollowUps;
-        }
-        
-        updateList('doctorsList', doctors, 'doctor');
-        updateList('worksList', works, 'work');
-        updateList('labsList', labs, 'lab');
-        updateList('followUpsList', followUps, 'followUp');
+        localStorage.setItem('doctors', JSON.stringify(doctors));
+        localStorage.setItem('works', JSON.stringify(works));
+        localStorage.setItem('labs', JSON.stringify(labs));
+        localStorage.setItem('followUps', JSON.stringify(followUps));
     }
     
-    // دالة إضافة طبيب جديد (مع دعم قاعدة البيانات)
-    async function addNewDoctor() {
-        const input = document.getElementById('newDoctorInput');
-        await addNewItemFromInput(input, 'doctor', 'doctors');
-    }
-    
-    // دالة إضافة نوع عمل جديد (مع دعم قاعدة البيانات)
-    async function addNewWork() {
-        const input = document.getElementById('newWorkInput');
-        await addNewItemFromInput(input, 'work', 'works');
-    }
-    
-    // دالة إضافة معمل جديد (مع دعم قاعدة البيانات)
-    async function addNewLab() {
-        const input = document.getElementById('newLabInput');
-        await addNewItemFromInput(input, 'lab', 'labs');
-    }
-    
-    // دالة إضافة مسؤول متابعة جديد (مع دعم قاعدة البيانات)
-    async function addNewFollowUp() {
-        const input = document.getElementById('newFollowUpInput');
-        await addNewItemFromInput(input, 'followUp', 'followups');
-    }
-    
-    // دالة مشتركة لإضافة عنصر مع دعم قاعدة البيانات
-    async function addNewItemFromInput(input, type, tableName) {
-        const newItem = input.value.trim();
-        const btnId = type + 'AddBtn';
-        const btnText = document.getElementById(btnId);
-        const originalText = btnText.textContent;
-        
-        if (!newItem) {
-            showStatus('managementStatus', 'يرجى إدخال اسم!', 'error');
-            return;
-        }
-        
-        // التحقق من عدم وجود الاسم مسبقاً
-        const items = getSelectOptions(type);
-        if (items.includes(newItem)) {
-            showStatus('managementStatus', 'هذا الاسم موجود بالفعل!', 'error');
-            return;
-        }
-        
-        // إضافة إلى قاعدة البيانات إذا كان متصلاً
-        if (isDatabaseConnected) {
-            btnText.textContent = 'جاري الإضافة...';
-            const result = await addItemToDatabase(tableName, newItem);
-            
-            if (!result.success) {
-                showStatus('managementStatus', 'فشل إضافة العنصر إلى قاعدة البيانات', 'error');
-                btnText.textContent = originalText;
-                return;
-            }
-        }
-        
-        // إضافة الخيار الجديد محلياً
-        const selectElement = document.getElementById(type);
-        const option = document.createElement('option');
-        option.value = newItem;
-        option.textContent = newItem;
-        selectElement.appendChild(option);
-        
-        // مسح حقل الإدخال
-        input.value = '';
-        
-        // حفظ البيانات محلياً
-        saveLocalData(
-            getSelectOptions('doctor'),
-            getSelectOptions('work'),
-            getSelectOptions('lab'),
-            getSelectOptions('followUp')
-        );
-        
-        // تحديث قوائم الإدارة
-        loadManagementLists();
-        
-        showStatus('managementStatus', 'تمت الإضافة بنجاح!', 'success');
-        btnText.textContent = originalText;
-    }
-    
-    // دالة حذف عنصر مع دعم قاعدة البيانات
-    async function deleteItem(type, index) {
-        const items = getSelectOptions(type);
-        const itemName = items[index];
-        const tableName = type === 'doctor' ? 'doctors' : 
-                         type === 'work' ? 'works' : 
-                         type === 'lab' ? 'labs' : 'followups';
-        
-        if (!confirm(`هل أنت متأكد من حذف "${itemName}"؟`)) {
-            return;
-        }
-        
-        // حذف من قاعدة البيانات إذا كان متصلاً
-        if (isDatabaseConnected) {
-            const result = await deleteItemFromDatabase(tableName, itemName);
-            if (!result.success) {
-                showStatus('managementStatus', 'فشل حذف العنصر من قاعدة البيانات', 'error');
-                return;
-            }
-        }
-        
-        // حذف العنصر من القائمة المنسدلة
-        const select = document.getElementById(type);
-        select.remove(index + 1); // +1 لتخطي الخيار الأول
-        
-        // حفظ البيانات محلياً
-        saveLocalData(
-            getSelectOptions('doctor'),
-            getSelectOptions('work'),
-            getSelectOptions('lab'),
-            getSelectOptions('followUp')
-        );
-        
-        // تحديث قوائم الإدارة
-        loadManagementLists();
-        
-        showStatus('managementStatus', 'تم الحذف بنجاح!', 'success');
-    }
-    
-    // [بقية الوظائف كما هي بدون تغيير]
+    // دالة للحصول على خيارات القائمة المنسدلة
     function getSelectOptions(selectId) {
         const select = document.getElementById(selectId);
         let items = [];
         
+        // جمع العناصر من القائمة المنسدلة (تخطي الخيار الأول)
         for (let i = 1; i < select.options.length; i++) {
             items.push(select.options[i].value);
         }
@@ -734,6 +762,40 @@
         return items;
     }
     
+    // دالة فتح صفحة الإدارة
+    function openManagementPage() {
+        loadManagementLists();
+        document.getElementById('managementModal').style.display = 'flex';
+    }
+    
+    // دالة إغلاق صفحة الإدارة
+    function closeManagementModal() {
+        document.getElementById('managementModal').style.display = 'none';
+        // تحديث القوائم بعد الإغلاق
+        loadData();
+    }
+    
+    // دالة تحميل قوائم الإدارة
+    function loadManagementLists() {
+        const doctors = getSelectOptions('doctor');
+        const works = getSelectOptions('work');
+        const labs = getSelectOptions('lab');
+        const followUps = getSelectOptions('followUp');
+        
+        // تحديث قائمة الأطباء
+        updateList('doctorsList', doctors, 'doctor');
+        
+        // تحديث قائمة أنواع العمل
+        updateList('worksList', works, 'work');
+        
+        // تحديث قائمة المعامل
+        updateList('labsList', labs, 'lab');
+        
+        // تحديث قائمة المتابعة
+        updateList('followUpsList', followUps, 'followUp');
+    }
+    
+    // دالة لتحديث قائمة الإدارة
     function updateList(listId, items, type) {
         const list = document.getElementById(listId);
         list.innerHTML = '';
@@ -771,7 +833,109 @@
         });
     }
     
-    // دالة توليد الرسالة (كما هي)
+    // دالة حذف عنصر من القائمة
+    function deleteItem(type, index) {
+        const itemName = getSelectOptions(type)[index];
+        
+        if (!confirm(`هل أنت متأكد من حذف "${itemName}"؟`)) {
+            return;
+        }
+        
+        // حذف العنصر من القائمة المنسدلة
+        const select = document.getElementById(type);
+        select.remove(index + 1); // +1 لتخطي الخيار الأول
+        
+        // حفظ البيانات
+        saveData();
+        
+        // تحديث قوائم الإدارة
+        loadManagementLists();
+        
+        alert('تم الحذف بنجاح!');
+    }
+    
+    // دالة إضافة طبيب جديد
+    function addNewDoctor() {
+        const input = document.getElementById('newDoctorInput');
+        addNewItemFromInput(input, 'doctor');
+    }
+    
+    // دالة إضافة نوع عمل جديد
+    function addNewWork() {
+        const input = document.getElementById('newWorkInput');
+        addNewItemFromInput(input, 'work');
+    }
+    
+    // دالة إضافة معمل جديد
+    function addNewLab() {
+        const input = document.getElementById('newLabInput');
+        addNewItemFromInput(input, 'lab');
+    }
+    
+    // دالة إضافة مسؤول متابعة جديد
+    function addNewFollowUp() {
+        const input = document.getElementById('newFollowUpInput');
+        addNewItemFromInput(input, 'followUp');
+    }
+    
+    // دالة مشتركة لإضافة عنصر من حقل الإدخال
+    function addNewItemFromInput(input, type) {
+        const newItem = input.value.trim();
+        
+        if (!newItem) {
+            alert('يرجى إدخال اسم!');
+            return;
+        }
+        
+        const selectElement = document.getElementById(type);
+        
+        // التحقق من عدم وجود الاسم مسبقاً
+        const items = getSelectOptions(type);
+        if (items.includes(newItem)) {
+            alert('هذا الاسم موجود بالفعل!');
+            return;
+        }
+        
+        // إضافة الخيار الجديد
+        const option = document.createElement('option');
+        option.value = newItem;
+        option.textContent = newItem;
+        selectElement.appendChild(option);
+        
+        // مسح حقل الإدخال
+        input.value = '';
+        
+        // حفظ البيانات
+        saveData();
+        
+        // تحديث قوائم الإدارة
+        loadManagementLists();
+        
+        alert('تمت الإضافة بنجاح!');
+    }
+    
+    // دالة استعادة الإعدادات الافتراضية
+    function resetToDefaults() {
+        if (!confirm('هل أنت متأكد من استعادة الإعدادات الافتراضية؟ سيتم حذف جميع العناصر المضافة.')) {
+            return;
+        }
+        
+        // تحديث القوائم المنسدلة بالقيم الافتراضية
+        updateSelectOptions('doctor', defaultDoctors);
+        updateSelectOptions('work', defaultWorks);
+        updateSelectOptions('lab', defaultLabs);
+        updateSelectOptions('followUp', defaultFollowUps);
+        
+        // حفظ البيانات
+        saveData();
+        
+        // تحديث قوائم الإدارة
+        loadManagementLists();
+        
+        alert('تم استعادة الإعدادات الافتراضية بنجاح!');
+    }
+    
+    // دالة توليد الرسالة
     function generateMessage() {
         const name = document.getElementById('name').value.trim();
         const doctor = document.getElementById('doctor').value;
@@ -784,6 +948,7 @@
         const dateInput = document.getElementById('date').value;
         const followUp = document.getElementById('followUp').value;
         
+        // التحقق من المدخلات المطلوبة
         const requiredFields = [
             { value: name, field: "الاسم" },
             { value: doctor, field: "الدكتور" },
@@ -801,6 +966,7 @@
             }
         }
         
+        // بناء الرسالة
         let workText = work;
         if (urgent) {
             workText = `[مستعجل] ${work}`;
@@ -810,10 +976,12 @@
 الدكتور: ${doctor}
 نوع العمل: ${workText}`;
 
+        // إضافة عدد الأسنان العلوية إذا تم إدخاله
         if (upperTeeth) {
             msg += ` علوي ${upperTeeth}`;
         }
 
+        // إضافة عدد الأسنان السفلية إذا تم إدخاله
         if (lowerTeeth) {
             msg += ` سفلي ${lowerTeeth}`;
         }
@@ -827,49 +995,21 @@
         return msg;
     }
     
-    // [بقية الوظائف كما هي]
-    
-    // تعبئة الحقول تلقائياً عند تحميل الصفحة
-    document.addEventListener('DOMContentLoaded', function() {
-        // تحميل الإعدادات المحفوظة
-        loadSavedSettings();
-        
-        // تعيين تاريخ اليوم
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const day = String(today.getDate()).padStart(2, '0');
-        document.getElementById('date').value = `${year}-${month}-${day}`;
-        
-        // تحسين تجربة المستخدم
-        document.getElementById('name').focus();
-    });
-    
-    // وظائف إضافية
-    function openManagementPage() {
-        loadManagementLists();
-        document.getElementById('managementModal').style.display = 'flex';
-    }
-    
-    function closeManagementModal() {
-        document.getElementById('managementModal').style.display = 'none';
-        // إعادة تحميل البيانات لتحديث أي تغييرات
-        if (isDatabaseConnected) {
-            loadDataFromDatabase();
-        }
-    }
-    
+    // دالة نسخ الرسالة إلى الحافظة
     function copyToClipboard() {
         const resultElement = document.getElementById('result');
         const notification = document.getElementById('copyNotification');
         
+        // إذا كانت الرسالة فارغة، قم بتوليدها أولاً
         if (resultElement.innerText === "ستظهر الرسالة هنا بعد الضغط على زر 'توليد الرسالة'...") {
             alert("يرجى توليد الرسالة أولاً قبل النسخ!");
             return;
         }
         
+        // نسخ النص إلى الحافظة
         navigator.clipboard.writeText(resultElement.innerText)
             .then(() => {
+                // إظهار إشعار النسخ
                 notification.classList.add('show');
                 setTimeout(() => {
                     notification.classList.remove('show');
@@ -881,9 +1021,11 @@
             });
     }
     
+    // دالة إرسال الرسالة عبر واتساب
     function sendWhatsApp() {
         const msg = generateMessage();
         
+        // إذا كانت الرسالة فارغة (بسبب عدم اكتمال البيانات)
         if (!msg) {
             return;
         }
@@ -891,28 +1033,55 @@
         const encodedMsg = encodeURIComponent(msg);
         const phoneNumber = document.getElementById('phone').value.trim();
         
+        // فتح واتساب مع الرسالة
         window.open(`https://wa.me/${phoneNumber}?text=${encodedMsg}`, '_blank');
     }
     
-    function resetToDefaults() {
-        if (!confirm('هل أنت متأكد من استعادة الإعدادات الافتراضية؟ سيتم حذف جميع العناصر المضافة.')) {
-            return;
-        }
+    // تعبئة الحقول تلقائياً عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+        // تحميل البيانات
+        loadData();
         
-        updateSelectOptions('doctor', defaultDoctors);
-        updateSelectOptions('work', defaultWorks);
-        updateSelectOptions('lab', defaultLabs);
-        updateSelectOptions('followUp', defaultFollowUps);
+        // تعيين تاريخ اليوم افتراضياً بصيغة YYYY-MM-DD
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        document.getElementById('date').value = `${year}-${month}-${day}`;
         
-        saveLocalData(defaultDoctors, defaultWorks, defaultLabs, defaultFollowUps);
-        loadManagementLists();
+        // إضافة إمكانية الضغط على Enter للتنقل بين الحقول
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach((input, index) => {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const nextIndex = index + 1;
+                    if (nextIndex < inputs.length) {
+                        inputs[nextIndex].focus();
+                    } else {
+                        generateMessage();
+                        document.querySelector('.btn-copy').focus();
+                    }
+                }
+            });
+        });
         
-        alert('تم استعادة الإعدادات الافتراضية بنجاح!');
-    }
-    /*
-    postgresql://postgres:[YOUR-PASSWORD]@db.xeaqqqvndeurzormtiyb.supabase.co:5432/postgres
-    
-    */
+        // تحسين تجربة المستخدم: التركيز على أول حقل عند تحميل الصفحة
+        document.getElementById('name').focus();
+        
+        // إضافة تأثير عند تحديد/إلغاء تحديد "مستعجل"
+        const urgentCheckbox = document.getElementById('urgent');
+        urgentCheckbox.addEventListener('change', function() {
+            console.log('حالة "مستعجل":', this.checked);
+        });
+        
+        // إغلاق Modal عند النقر خارج المحتوى
+        document.getElementById('managementModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeManagementModal();
+            }
+        });
+    });
 </script>
 
 </body>
