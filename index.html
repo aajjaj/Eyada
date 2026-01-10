@@ -21,7 +21,7 @@
         }
         
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             background: white;
             padding: 30px;
@@ -50,6 +50,7 @@
             background: linear-gradient(90deg, transparent, #2ecc71);
         }
         
+        /* تصميم جديد موحد للحقول */
         .form-group {
             margin-bottom: 20px;
             display: flex;
@@ -60,9 +61,10 @@
         label {
             font-weight: 600;
             color: #2c3e50;
-            min-width: 120px;
+            width: 140px;
             text-align: left;
             font-size: 15px;
+            flex-shrink: 0;
         }
         
         .required::after {
@@ -71,17 +73,24 @@
             font-weight: bold;
         }
         
-        select, input {
+        /* تصاميم موحدة لجميع الحقول */
+        .input-container {
             flex: 1;
+            min-width: 0;
+        }
+        
+        input, select {
+            width: 100%;
             padding: 12px 15px;
             border-radius: 10px;
             border: 2px solid #e0e6ed;
             font-size: 15px;
             transition: all 0.3s ease;
             background-color: #f8fafc;
+            font-family: inherit;
         }
         
-        /* تصميم خاص لنوع العمل مع تشيك بوكس */
+        /* تصحيح تصميم حقل نوع العمل */
         .work-group {
             display: flex;
             align-items: center;
@@ -89,50 +98,41 @@
             margin-bottom: 20px;
         }
         
-        .work-select-container {
-            flex: 3;
+        .work-group > label {
+            width: 140px;
+            text-align: left;
+            font-size: 15px;
+            flex-shrink: 0;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .work-controls-container {
+            flex: 1;
             display: flex;
             align-items: center;
             gap: 15px;
+            min-width: 0;
         }
         
-        .work-label {
-            font-weight: 600;
-            color: #2c3e50;
-            min-width: 120px;
-            text-align: left;
-            font-size: 15px;
-        }
-        
-        #work {
+        .work-select-container {
             flex: 1;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 2px solid #e0e6ed;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background-color: #f8fafc;
+            min-width: 0;
         }
         
-        #work:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
-            background-color: white;
-        }
-        
-        /* تصميم جديد للتشيك بوكس - أصغر وبدون ألوان */
+        /* تصميم التشيك بوكس بنفس عرض الحقول */
         .urgent-checkbox-container {
             flex: 1;
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e6ed;
+            background-color: #f8fafc;
             transition: all 0.2s ease;
-            max-width: 120px;
+            min-width: 0;
+            box-sizing: border-box;
         }
         
         .urgent-checkbox-container:hover {
@@ -146,51 +146,35 @@
         }
         
         .urgent-checkbox-container label {
-            min-width: auto;
+            width: auto;
             font-weight: 500;
             color: #555;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             white-space: nowrap;
             margin: 0;
+            flex-shrink: 0;
+            text-align: right;
         }
         
         #urgent {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
             accent-color: #666;
             margin: 0;
-        }
-        
-        /* تصميم خاص للقوائم المنسدلة (بدون أزرار إضافة/حذف) */
-        .dropdown-container {
-            flex: 1;
+            flex-shrink: 0;
         }
         
         /* تخصيص أداة التاريخ */
         input[type="date"] {
-            font-family: inherit;
             position: relative;
-        }
-        
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            background: transparent;
-            bottom: 0;
-            color: transparent;
             cursor: pointer;
-            height: auto;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: auto;
-            opacity: 0;
         }
         
         .date-input-container {
             position: relative;
-            flex: 1;
+            width: 100%;
         }
         
         .date-input-container::after {
@@ -208,12 +192,9 @@
         #date {
             padding-right: 15px;
             padding-left: 50px;
-            cursor: pointer;
-            position: relative;
-            z-index: 2;
         }
         
-        /* تصميم خاص للأسنان العلوية والسفلية في نفس السطر */
+        /* تصميم خاص للأسنان العلوية والسفلية */
         .teeth-row {
             display: flex;
             gap: 15px;
@@ -224,41 +205,36 @@
             flex: 1;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            min-width: 0;
         }
         
-        .teeth-label {
-            min-width: 120px;
+        .teeth-group > label {
+            width: 140px;
             font-weight: 600;
             color: #2c3e50;
             text-align: left;
             font-size: 15px;
+            flex-shrink: 0;
+        }
+        
+        .teeth-input-container {
+            flex: 1;
+            min-width: 0;
         }
         
         .teeth-input {
-            flex: 1;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 2px solid #e0e6ed;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background-color: #f8fafc;
+            width: 100%;
         }
         
-        .teeth-input:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: #3498db;
             box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
             background-color: white;
         }
         
-        select:focus, input:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
-            background-color: white;
-        }
-        
+        /* أزرار التحكم */
         .buttons-container {
             display: flex;
             gap: 12px;
@@ -292,7 +268,7 @@
         .btn-generate {
             background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
             color: white;
-            flex: 1;
+                flex: 1;
         }
         
         .btn-generate:hover {
@@ -302,7 +278,7 @@
         .btn-copy {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
-            flex: 1;
+                flex: 1;
         }
         
         .btn-copy:hover {
@@ -334,6 +310,7 @@
             background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%);
         }
         
+        /* منطقة النتيجة */
         #result {
             margin-top: 25px;
             white-space: pre-wrap;
@@ -391,6 +368,145 @@
             border-top: 2px solid #f1f5f9;
         }
         
+        /* Modal للإدارة */
+        .management-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .modal-title {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .close-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: auto;
+        }
+        
+        .close-btn:hover {
+            background: #c0392b;
+        }
+        
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .management-section {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #e0e6ed;
+        }
+        
+        .section-title {
+            color: #3498db;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        /* قسم الإضافة في نفس السطر */
+        .add-item-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .add-item-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .add-btn {
+            padding: 12px 24px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: auto;
+            white-space: nowrap;
+        }
+        
+        .add-btn:hover {
+            background: #27ae60;
+        }
+        
+        /* زر الحذف المربع الصغير */
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            min-width: 30px;
+        }
+        
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+        
+        .modal-actions {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        .default-btn {
+                flex: 1;
+        }        
+        .save-close-btn {
+                flex: 1;
+        }
+        
         /* تصميم متجاوب للهواتف */
         @media (max-width: 768px) {
             body {
@@ -400,52 +516,41 @@
             .container {
                 padding: 25px 20px;
                 border-radius: 15px;
+                max-width: 100%;
             }
             
             .form-group {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: stretch;
                 gap: 8px;
+            }
+            
+            .form-group > label {
+                width: 100%;
+                text-align: right;
+            }
+            
+            .input-container {
+                width: 100%;
             }
             
             .work-group {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+                align-items: stretch;
+                gap: 8px;
             }
             
-            .work-select-container {
+            .work-group > label {
                 width: 100%;
+                text-align: right;
+            }
+            
+            .work-controls-container {
                 flex-direction: column;
                 gap: 8px;
             }
             
-            .work-label {
-                width: 100%;
-                text-align: right;
-            }
-            
             .urgent-checkbox-container {
-                width: 100%;
-                max-width: none;
-                justify-content: flex-start;
-            }
-            
-            .dropdown-container {
-                width: 100%;
-            }
-            
-            label {
-                min-width: auto;
-                width: 100%;
-                text-align: right;
-            }
-            
-            select, input {
-                width: 100%;
-            }
-            
-            .date-input-container {
                 width: 100%;
             }
             
@@ -455,10 +560,12 @@
             }
             
             .teeth-group {
-                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
             }
             
-            .teeth-label {
+            .teeth-group > label {
                 width: 100%;
                 text-align: right;
             }
@@ -470,6 +577,33 @@
             
             button {
                 width: 100%;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .management-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .add-item-row {
+                flex-direction: column;
+            }
+            
+            .add-btn {
+                width: 100%;
+            }
+            
+            .close-btn {
+                width: auto;
+            }
+            
+            .delete-btn {
+                width: 35px;
+                height: 35px;
+                min-width: 35px;
             }
         }
         
@@ -505,12 +639,14 @@
     
     <div class="form-group">
         <label for="name" class="required">الاسم:</label>
-        <input type="text" id="name" placeholder="أدخل اسم المريض">
+        <div class="input-container">
+            <input type="text" id="name" placeholder="أدخل اسم المريض">
+        </div>
     </div>
     
     <div class="form-group">
         <label for="doctor" class="required">الدكتور:</label>
-        <div class="dropdown-container">
+        <div class="input-container">
             <select id="doctor">
                 <option value="" disabled selected>اختر الدكتور</option>
                 <!-- سيتم ملئ الخيارات تلقائياً -->
@@ -520,39 +656,45 @@
     
     <!-- نوع العمل مع تشيك بوكس "مستعجل؟" -->
     <div class="work-group">
-        <div class="work-select-container">
-            <label for="work" class="work-label required">نوع العمل:</label>
-            <div class="dropdown-container">
+        <label for="work" class="required">نوع العمل:</label>
+        <div class="work-controls-container">
+            <div class="work-select-container">
                 <select id="work">
                     <option value="" disabled selected>اختر نوع العمل</option>
                     <!-- سيتم ملئ الخيارات تلقائياً -->
                 </select>
             </div>
-        </div>
-        
-        <!-- التشيك بوكس الجديد - أصغر وبدون ألوان -->
-        <div class="urgent-checkbox-container">
-            <input type="checkbox" id="urgent" name="urgent">
-            <label for="urgent">مستعجل؟</label>
+            
+            <!-- التشيك بوكس -->
+            <div class="input-container">
+                <div class="urgent-checkbox-container">
+                    <input type="checkbox" id="urgent" name="urgent">
+                    <label for="urgent">مستعجل؟</label>
+                </div>
+            </div>
         </div>
     </div>
     
     <!-- صف الأسنان العلوية والسفلية في نفس السطر -->
     <div class="teeth-row">
         <div class="teeth-group">
-            <label class="teeth-label">الأسنان العلوية:</label>
-            <input type="number" id="upperTeeth" class="teeth-input" placeholder="عدد الأسنان العلوية" min="0" max="32">
+            <label for="upperTeeth">الأسنان العلوية:</label>
+            <div class="teeth-input-container">
+                <input type="number" id="upperTeeth" class="teeth-input" placeholder="عدد الأسنان العلوية" min="0" max="32">
+            </div>
         </div>
         
         <div class="teeth-group">
-            <label class="teeth-label">الأسنان السفلية:</label>
-            <input type="number" id="lowerTeeth" class="teeth-input" placeholder="عدد الأسنان السفلية" min="0" max="32">
+            <label for="lowerTeeth">الأسنان السفلية:</label>
+            <div class="teeth-input-container">
+                <input type="number" id="lowerTeeth" class="teeth-input" placeholder="عدد الأسنان السفلية" min="0" max="32">
+            </div>
         </div>
     </div>
     
     <div class="form-group">
         <label for="lab" class="required">المعمل:</label>
-        <div class="dropdown-container">
+        <div class="input-container">
             <select id="lab">
                 <option value="" disabled selected>اختر المعمل</option>
                 <!-- سيتم ملئ الخيارات تلقائياً -->
@@ -562,19 +704,23 @@
     
     <div class="form-group">
         <label for="phone" class="required">الهاتف:</label>
-        <input type="text" id="phone" placeholder="أدخل رقم الهاتف" value="777430595">
+        <div class="input-container">
+            <input type="text" id="phone" placeholder="أدخل رقم الهاتف" value="777430595">
+        </div>
     </div>
     
     <div class="form-group">
         <label for="date" class="required">التاريخ:</label>
-        <div class="date-input-container">
-            <input type="date" id="date">
+        <div class="input-container">
+            <div class="date-input-container">
+                <input type="date" id="date">
+            </div>
         </div>
     </div>
     
     <div class="form-group">
         <label for="followUp" class="required">متابعة:</label>
-        <div class="dropdown-container">
+        <div class="input-container">
             <select id="followUp">
                 <option value="" disabled selected>اختر المسؤول عن المتابعة</option>
                 <!-- سيتم ملئ الخيارات تلقائياً -->
@@ -612,21 +758,21 @@
 </div>
 
 <!-- Modal لإدارة القوائم -->
-<div id="managementModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 20px;">
-    <div style="background: white; padding: 30px; border-radius: 15px; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h3 style="color: #2c3e50; margin: 0;">إدارة القوائم</h3>
-            <button onclick="closeManagementModal()" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 16px;">إغلاق</button>
+<div id="managementModal" class="management-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">إدارة القوائم</h3>
+            <button class="close-btn" onclick="closeManagementModal()">إغلاق</button>
         </div>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
+        <div class="management-grid">
             
             <!-- قسم إدارة الأطباء -->
-            <div style="background: #f8fafc; padding: 25px; border-radius: 12px; border: 2px solid #e0e6ed;">
-                <h4 style="color: #3498db; margin-bottom: 20px; text-align: center;">👨‍⚕️ إدارة الأطباء</h4>
-                <div style="margin-bottom: 15px;">
-                    <input type="text" id="newDoctorInput" placeholder="أدخل اسم الدكتور الجديد" style="width: 100%; padding: 12px 15px; border: 2px solid #3498db; border-radius: 8px; font-size: 16px; margin-bottom: 10px;">
-                    <button onclick="addNewDoctor()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">إضافة طبيب</button>
+            <div class="management-section">
+                <h4 class="section-title">👨‍⚕️ إدارة الأطباء</h4>
+                <div class="add-item-row">
+                    <input type="text" id="newDoctorInput" class="add-item-input" placeholder="أدخل اسم الدكتور الجديد">
+                    <button onclick="addNewDoctor()" class="add-btn">إضافة</button>
                 </div>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <div id="doctorsList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -636,11 +782,11 @@
             </div>
             
             <!-- قسم إدارة أنواع العمل -->
-            <div style="background: #f8fafc; padding: 25px; border-radius: 12px; border: 2px solid #e0e6ed;">
-                <h4 style="color: #e74c3c; margin-bottom: 20px; text-align: center;">🔧 إدارة أنواع العمل</h4>
-                <div style="margin-bottom: 15px;">
-                    <input type="text" id="newWorkInput" placeholder="أدخل نوع العمل الجديد" style="width: 100%; padding: 12px 15px; border: 2px solid #e74c3c; border-radius: 8px; font-size: 16px; margin-bottom: 10px;">
-                    <button onclick="addNewWork()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">إضافة نوع عمل</button>
+            <div class="management-section">
+                <h4 class="section-title" style="color: #e74c3c;">🔧 إدارة أنواع العمل</h4>
+                <div class="add-item-row">
+                    <input type="text" id="newWorkInput" class="add-item-input" placeholder="أدخل نوع العمل الجديد">
+                    <button onclick="addNewWork()" class="add-btn">إضافة</button>
                 </div>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <div id="worksList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -650,11 +796,11 @@
             </div>
             
             <!-- قسم إدارة المعامل -->
-            <div style="background: #f8fafc; padding: 25px; border-radius: 12px; border: 2px solid #e0e6ed;">
-                <h4 style="color: #9b59b6; margin-bottom: 20px; text-align: center;">🏢 إدارة المعامل</h4>
-                <div style="margin-bottom: 15px;">
-                    <input type="text" id="newLabInput" placeholder="أدخل اسم المعمل الجديد" style="width: 100%; padding: 12px 15px; border: 2px solid #9b59b6; border-radius: 8px; font-size: 16px; margin-bottom: 10px;">
-                    <button onclick="addNewLab()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">إضافة معمل</button>
+            <div class="management-section">
+                <h4 class="section-title" style="color: #9b59b6;">🏢 إدارة المعامل</h4>
+                <div class="add-item-row">
+                    <input type="text" id="newLabInput" class="add-item-input" placeholder="أدخل اسم المعمل الجديد">
+                    <button onclick="addNewLab()" class="add-btn">إضافة</button>
                 </div>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <div id="labsList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -664,11 +810,11 @@
             </div>
             
             <!-- قسم إدارة المتابعة -->
-            <div style="background: #f8fafc; padding: 25px; border-radius: 12px; border: 2px solid #e0e6ed;">
-                <h4 style="color: #2ecc71; margin-bottom: 20px; text-align: center;">👥 إدارة المتابعة</h4>
-                <div style="margin-bottom: 15px;">
-                    <input type="text" id="newFollowUpInput" placeholder="أدخل اسم مسؤول المتابعة" style="width: 100%; padding: 12px 15px; border: 2px solid #2ecc71; border-radius: 8px; font-size: 16px; margin-bottom: 10px;">
-                    <button onclick="addNewFollowUp()" style="width: 100%; padding: 12px; background: #2ecc71; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">إضافة مسؤول متابعة</button>
+            <div class="management-section">
+                <h4 class="section-title" style="color: #2ecc71;">👥 إدارة المتابعة</h4>
+                <div class="add-item-row">
+                    <input type="text" id="newFollowUpInput" class="add-item-input" placeholder="أدخل اسم مسؤول المتابعة">
+                    <button onclick="addNewFollowUp()" class="add-btn">إضافة</button>
                 </div>
                 <div style="max-height: 200px; overflow-y: auto;">
                     <div id="followUpsList" style="display: flex; flex-direction: column; gap: 10px;">
@@ -679,9 +825,12 @@
             
         </div>
         
-        <div style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 2px solid #eee;">
-            <button onclick="resetToDefaults()" style="padding: 12px 24px; background: #e74c3c; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 0 10px;">استعادة الإعدادات الافتراضية</button>
-            <button onclick="closeManagementModal()" style="padding: 12px 24px; background: #3498db; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 0 10px;">حفظ والإغلاق</button>
+        <div class="modal-actions">
+            <div class="buttons-container">
+            <button onclick="resetToDefaults()" class="add-btn default-btn" style="background: #e74c3c; margin-right: 10px;">استعادة الإعدادات</button>
+            <button onclick="closeManagementModal()" class="add-btn save-close-btn" style="background: #3498db;">حفظ والإغلاق</button>
+            </div>
+        </div>
         </div>
     </div>
 </div>
@@ -809,20 +958,18 @@
             listItem.style.background = 'white';
             listItem.style.borderRadius = '8px';
             listItem.style.border = '1px solid #ddd';
+            listItem.style.marginBottom = '8px';
             
             const itemText = document.createElement('span');
             itemText.textContent = item;
             itemText.style.fontSize = '15px';
+            itemText.style.flex = '1';
+            itemText.style.paddingRight = '10px';
             
             const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = 'حذف';
-            deleteBtn.style.padding = '5px 12px';
-            deleteBtn.style.background = '#e74c3c';
-            deleteBtn.style.color = 'white';
-            deleteBtn.style.border = 'none';
-            deleteBtn.style.borderRadius = '5px';
-            deleteBtn.style.cursor = 'pointer';
-            deleteBtn.style.fontSize = '13px';
+            deleteBtn.textContent = '✕'; // رمز X صغير
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.title = 'حذف';
             deleteBtn.onclick = function() {
                 deleteItem(type, index);
             };
@@ -836,11 +983,11 @@
     // دالة حذف عنصر من القائمة
     function deleteItem(type, index) {
         const itemName = getSelectOptions(type)[index];
-        
+        /*
         if (!confirm(`هل أنت متأكد من حذف "${itemName}"؟`)) {
             return;
         }
-        
+        */
         // حذف العنصر من القائمة المنسدلة
         const select = document.getElementById(type);
         select.remove(index + 1); // +1 لتخطي الخيار الأول
@@ -851,7 +998,7 @@
         // تحديث قوائم الإدارة
         loadManagementLists();
         
-        alert('تم الحذف بنجاح!');
+        //alert('تم الحذف بنجاح!');
     }
     
     // دالة إضافة طبيب جديد
@@ -911,7 +1058,7 @@
         // تحديث قوائم الإدارة
         loadManagementLists();
         
-        alert('تمت الإضافة بنجاح!');
+        //alert('تمت الإضافة بنجاح!');
     }
     
     // دالة استعادة الإعدادات الافتراضية
@@ -948,6 +1095,7 @@
         const dateInput = document.getElementById('date').value;
         const followUp = document.getElementById('followUp').value;
         
+        /*
         // التحقق من المدخلات المطلوبة
         const requiredFields = [
             { value: name, field: "الاسم" },
@@ -965,26 +1113,28 @@
                 return "";
             }
         }
-        
+        */
         // بناء الرسالة
         let workText = work;
+
+        
+        // إضافة عدد الأسنان العلوية إذا تم إدخاله
+        if (upperTeeth) {
+            workText += ` علوي ${upperTeeth}`;
+        }
+
+        // إضافة عدد الأسنان السفلية إذا تم إدخاله
+        if (lowerTeeth) {
+            workText += ` سفلي ${lowerTeeth}`;
+        }
         if (urgent) {
-            workText = `[مستعجل] ${work}`;
+            workText += ` مستعجل `;
         }
         
         let msg = `الاسم: ${name}
 الدكتور: ${doctor}
 نوع العمل: ${workText}`;
 
-        // إضافة عدد الأسنان العلوية إذا تم إدخاله
-        if (upperTeeth) {
-            msg += ` علوي ${upperTeeth}`;
-        }
-
-        // إضافة عدد الأسنان السفلية إذا تم إدخاله
-        if (lowerTeeth) {
-            msg += ` سفلي ${lowerTeeth}`;
-        }
 
         msg += `\nالمعمل: ${lab}
 رقم الهاتف: ${phone}
@@ -1034,7 +1184,7 @@
         const phoneNumber = document.getElementById('phone').value.trim();
         
         // فتح واتساب مع الرسالة
-        window.open(`https://wa.me/${phoneNumber}?text=${encodedMsg}`, '_blank');
+        window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
     }
     
     // تعبئة الحقول تلقائياً عند تحميل الصفحة
@@ -1068,12 +1218,6 @@
         
         // تحسين تجربة المستخدم: التركيز على أول حقل عند تحميل الصفحة
         document.getElementById('name').focus();
-        
-        // إضافة تأثير عند تحديد/إلغاء تحديد "مستعجل"
-        const urgentCheckbox = document.getElementById('urgent');
-        urgentCheckbox.addEventListener('change', function() {
-            console.log('حالة "مستعجل":', this.checked);
-        });
         
         // إغلاق Modal عند النقر خارج المحتوى
         document.getElementById('managementModal').addEventListener('click', function(e) {
